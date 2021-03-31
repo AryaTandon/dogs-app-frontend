@@ -3,10 +3,15 @@ import './App.css';
 import Leaderboard from './components/Leaderboard'
 import Voting from './components/Voting'
 
+export interface IDog {
+  breed: string,
+  vote_count: number
+}
 
 function App() {
 
   const [dogs, setDogs] = useState<string[]>();
+  const [list, setList] = useState<IDog[]>();
 
   const fetchTwoRandomDogs = () => {
     fetch('https://dog.ceo/api/breeds/image/random/2').then(
@@ -21,21 +26,31 @@ function App() {
   const addVoteAndRefresh = async (e: any) => {
     try {
       const chosenBreed = e.target.value;
-      await fetch('http://localhost:4000/', {
+      await fetch('https://amos-dog-backend.herokuapp.com/votes', {
         method: "POST",
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({chosenBreed})
       });
+      fetchTwoRandomDogs();
     } catch (err) {
       console.error(err.message);
-    }
-    fetchTwoRandomDogs();
+    } 
+  }
+
+  const getAllDogs = async() => {
+    try {
+      const response = await fetch('https://amos-dog-backend.herokuapp.com/');
+      setList(await response.json());
+    } catch (err) {
+      console.error(err.message);
+    } 
   }
 
   useEffect(() => {
     fetchTwoRandomDogs();
+    getAllDogs();
   }, [])
 
   return (
@@ -45,6 +60,13 @@ function App() {
         dogLinks = {dogs}
         addVoteAndRefresh = {addVoteAndRefresh}
         />
+      : <></>
+      }
+      {list ? 
+        <Leaderboard 
+        getAllDogs={getAllDogs}
+        dogLeaderboard={list}
+      />
       : <></>
       }
     </div>
