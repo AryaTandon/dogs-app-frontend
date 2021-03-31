@@ -1,24 +1,52 @@
-import React from 'react';
-import logo from './logo.svg';
+import { useEffect, useState } from 'react';
 import './App.css';
+import Leaderboard from './components/Leaderboard'
+import Voting from './components/Voting'
+
 
 function App() {
+
+  const [dogs, setDogs] = useState<string[]>();
+
+  const fetchTwoRandomDogs = () => {
+    fetch('https://dog.ceo/api/breeds/image/random/2').then(
+      async response => {
+        let jsonResponse = await response.json();
+        setDogs(jsonResponse.message);
+        console.log(dogs);
+      }
+    )
+  }
+
+  const addVoteAndRefresh = async (e: any) => {
+    try {
+      const chosenBreed = e.target.value;
+      await fetch('http://localhost:4000/', {
+        method: "POST",
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({chosenBreed})
+      });
+    } catch (err) {
+      console.error(err.message);
+    }
+    fetchTwoRandomDogs();
+  }
+
+  useEffect(() => {
+    fetchTwoRandomDogs();
+  }, [])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      {dogs ?
+        <Voting 
+        dogLinks = {dogs}
+        addVoteAndRefresh = {addVoteAndRefresh}
+        />
+      : <></>
+      }
     </div>
   );
 }
