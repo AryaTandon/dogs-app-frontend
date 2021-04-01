@@ -1,3 +1,4 @@
+import './components.css';
 
 interface IVoting {
     dogLinks: string[],
@@ -17,11 +18,15 @@ const Voting = ({dogLinks, addVoteAndRefresh, getBreedNames, formatBreedNames}: 
     }
 
     return (
-        <div>
-            <img src={dogLinks[0]} alt={`${formattedNames[0]}`} width="500" height="600"></img>
+        <div className="voting-container">
+            <div className="voting-block">
+            <img src={dogLinks[0]} alt={`${formattedNames[0]}`} ></img>
             <button value={`${linkName[0]}`} onClick={(e) => addVoteAndRefresh(e)}>{formattedNames[0]}</button>
-            <img src={dogLinks[1]} alt={`${formattedNames[1]}`} width="500" height="600"></img>
+            </div>
+            <div className="voting-block">
+            <img src={dogLinks[1]} alt={`${formattedNames[1]}`} ></img>
             <button value={`${linkName[1]}`} onClick={(e) => addVoteAndRefresh(e)}>{formattedNames[1]}</button>
+            </div>
         </div>
     )
 };

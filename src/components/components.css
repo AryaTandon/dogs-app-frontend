@@ -1,0 +1,43 @@
+.voting-container {
+    display: flex;
+    flex-direction: row;
+    margin: 20px;
+    justify-content: center;
+}
+
+.voting-block {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.voting-block img {
+    /* height: 90%;
+    width: 80%;
+    max-width: 500px;
+    max-height: 600px; */
+    height: 500px;
+    width: 400px;
+}
+
+.leaderboard-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.voting-list{
+    text-align: left;
+}
+.voting-list li {
+    list-style-type: none;
+}
+
+.top-three{
+    display: flex;
+    flex-direction: row;
+}
+.top-three img {
+    height: 200px;
+    width: 200px;
+    padding: 20px;
+}

@@ -1,4 +1,5 @@
 import {IDog} from '../App'
+import './components.css';
 
 interface ILeaderboard {
     getAllDogs: Function,
@@ -19,12 +20,13 @@ const Leaderboard = ({getAllDogs, dogLeaderboard, topDogs, formatBreedNames}: IL
     return(
     <div>
         <button onClick={() => getAllDogs()}> REFRESH</button>
-        <div>
+        <div className="leaderboard-container">
+        <div className="voting-list">
        <ul>
            {dogLeaderboard.map((dog, idx) => <li key={idx}> {dog.breed} : {dog.vote_count}</li>)}
        </ul>
        </div>
-       <div>
+       <div className="top-three">
            {topDogs.map((link, idx) => {
            return (
            <div>
@@ -34,6 +36,8 @@ const Leaderboard = ({getAllDogs, dogLeaderboard, topDogs, formatBreedNames}: IL
            )
            })}
        </div>
+        </div>
+        
     </div>
     )
 };
