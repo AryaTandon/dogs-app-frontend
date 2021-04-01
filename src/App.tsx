@@ -12,7 +12,7 @@ function App() {
 
   const [dogs, setDogs] = useState<string[]>();
   const [list, setList] = useState<IDog[]>();
-
+  const [topDogs, setTopDogs] = useState<string[]>([])
   const fetchTwoRandomDogs = () => {
     fetch('https://dog.ceo/api/breeds/image/random/2').then(
       async response => {
@@ -42,7 +42,16 @@ function App() {
   const getAllDogs = async() => {
     try {
       const response = await fetch('https://amos-dog-backend.herokuapp.com/');
-      setList(await response.json());
+      const myList = await response.json()
+      setList(myList);
+
+      let myClone = []
+      for (let n = 0; n<3; n++) {
+        const res = await fetch(`https://dog.ceo/api/breed/${myList![n].breed}/images/random`)
+        let jsonResponse = await res.json();
+        myClone.push(jsonResponse.message);
+      }
+      setTopDogs([...myClone])
     } catch (err) {
       console.error(err.message);
     } 
@@ -66,6 +75,7 @@ function App() {
         <Leaderboard 
         getAllDogs={getAllDogs}
         dogLeaderboard={list}
+        topDogs = {topDogs}
       />
       : <></>
       }
