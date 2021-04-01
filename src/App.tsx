@@ -57,6 +57,28 @@ function App() {
     } 
   }
 
+  const getBreedNames = () => {
+    let Arr: string[] = [];
+    for (const dog in dogs) {
+        const dogName = dogs[parseInt(dog)].split('/')[4];
+        Arr.push(dogName);
+    }
+    return Arr;
+  }
+
+  const formatBreedNames = (breedName: string) => {
+    let finalName: string;  
+        if (breedName.includes("-")) {
+            finalName = breedName.split('-')
+                                .map(w => w[0].toUpperCase() + w.substr(1).toLowerCase())
+                                .reverse()
+                                .join(' ');
+        } else {
+            finalName = breedName[0].toUpperCase() + breedName.substr(1).toLowerCase();
+        }
+    return finalName;
+  }
+
   useEffect(() => {
     fetchTwoRandomDogs();
     getAllDogs();
@@ -68,6 +90,8 @@ function App() {
         <Voting 
         dogLinks = {dogs}
         addVoteAndRefresh = {addVoteAndRefresh}
+        getBreedNames = {getBreedNames}
+        formatBreedNames = {formatBreedNames}
         />
       : <></>
       }
@@ -76,6 +100,7 @@ function App() {
         getAllDogs={getAllDogs}
         dogLeaderboard={list}
         topDogs = {topDogs}
+        formatBreedNames = {formatBreedNames}
       />
       : <></>
       }
